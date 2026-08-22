@@ -167,6 +167,7 @@
 .button-quiet { display: inline-flex; align-items: center; gap: 0.6rem; color: hsl(var(--primary)); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; transition: gap 220ms ease; }
 .button-quiet:hover { gap: 0.9rem; }
 .hero-orbit { animation: orbit-drift 16s ease-in-out infinite; transform-origin: center; }
+  .hero-portrait { clip-path: inset(7% 0 0); transform: translateY(4%); filter: drop-shadow(0 18px 18px rgba(15, 28, 42, 0.25)); }
 .hero-dot { animation: dot-pulse 3.5s ease-in-out infinite; }
 .formula-float { animation: formula-float 8s ease-in-out infinite; }
 .formula-float-delay { animation: formula-float 8s ease-in-out 1.4s infinite; }

@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import lecturerPortrait from '@assets/image_1787375197389.png';
 
 const queryClient = new QueryClient();
 
@@ -105,14 +106,15 @@ function FormulaBoard() {
         <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d9a441]">A working notebook</span>
         <span className="font-mono-ui text-[10px] text-[#b8c5ca]">01 / 04</span>
       </div>
-      <div className="relative mt-24 max-w-[360px]">
-        <p className="font-display text-4xl italic leading-[1.08] text-[#f3e5c2] sm:text-5xl">“A good model is a conversation with reality.”</p>
-        <div className="mt-8 h-px w-14 bg-[#d9a441]" />
-        <p className="mt-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#b8c5ca]">M. Hafeez · teaching mathematics</p>
+      <img src={lecturerPortrait} alt="M. Hafeez, Mathematics Lecturer" className="hero-portrait absolute bottom-0 right-0 z-[1] h-[320px] w-auto object-contain object-bottom sm:right-3 sm:h-[385px]" data-testid="image-lecturer-portrait" />
+      <div className="relative z-[2] mt-24 max-w-[225px] sm:max-w-[245px]">
+        <p className="font-display text-3xl italic leading-[1.08] text-[#f3e5c2] sm:text-4xl">“A good model is a conversation with reality.”</p>
+        <div className="mt-6 h-px w-14 bg-[#d9a441]" />
+        <p className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#b8c5ca]">M. Hafeez · teaching mathematics</p>
       </div>
-      <div className="formula-float absolute bottom-10 left-8 font-display text-2xl text-[#d9a441] sm:left-10">∫ f(x) dx</div>
-      <div className="formula-float-delay absolute bottom-20 right-10 font-display text-xl text-[#c7d7d2]">P(A | B)</div>
-      <div className="absolute bottom-7 right-7 rounded-full border border-[#f7f3ed]/20 px-3 py-1 font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#b8c5ca]">Faisalabad, PK</div>
+      <div className="formula-float absolute bottom-10 left-8 z-[3] font-display text-2xl text-[#d9a441] sm:left-10">∫ f(x) dx</div>
+      <div className="formula-float-delay absolute bottom-20 right-10 z-[3] font-display text-xl text-[#c7d7d2]">P(A | B)</div>
+      <div className="absolute bottom-7 left-7 z-[3] rounded-full border border-[#f7f3ed]/20 px-3 py-1 font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#b8c5ca] sm:left-auto sm:right-7">Faisalabad, PK</div>
     </div>
   );
 }
@@ -189,7 +191,7 @@ function Home() {
                 The <span className="ink-line text-[#6e2338]">logic</span><br />behind the<br /><em className="text-[#6e2338]">world.</em>
               </h1>
               <p className="mt-9 max-w-[510px] text-[17px] leading-8 text-[#5e676b]" data-testid="text-hero-intro">
-                I am <strong className="font-semibold text-[#23384b]">M. Hafeez</strong>, an experienced Mathematics Lecturer in Faisalabad. For 15 years, I have helped learners move from “I cannot” to “let me try another way.”
+                I am <strong className="font-semibold text-[#23384b]">M. Hafeez</strong>, an experienced Mathematics Lecturer in Faisalabad. For 19 years, I have helped learners move from “I cannot” to “let me try another way.”
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-6">
                 <button onClick={() => scrollToSection('approach')} className="button-primary" data-testid="button-explore-approach">Explore my approach <ArrowDownRight size={16} /></button>
@@ -207,11 +209,12 @@ function Home() {
             <Reveal delay={130}><FormulaBoard /></Reveal>
           </div>
           <div className="border-y border-[#d2c7b9] bg-[#efe8dc]" data-testid="stats-strip">
-            <div className="section-shell grid grid-cols-2 divide-x divide-[#d2c7b9] sm:grid-cols-4">
-              <div className="py-6 pr-5 sm:py-7"><p className="font-display text-4xl text-[#6e2338]" data-testid="stat-years">15</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years teaching</p></div>
-              <div className="py-6 pl-5 sm:py-7 sm:pl-7"><p className="font-display text-4xl text-[#23384b]" data-testid="stat-punjab-college">07</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · Punjab College</p></div>
-              <div className="border-t border-[#d2c7b9] py-6 pr-5 sm:border-t-0 sm:py-7 sm:pl-7"><p className="font-display text-4xl text-[#4e7c78]" data-testid="stat-ucp">02</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · UCP Faisalabad</p></div>
-              <div className="border-t border-[#d2c7b9] py-6 pl-5 sm:border-t-0 sm:py-7"><p className="font-display text-4xl text-[#b28a34]" data-testid="stat-edinburgh">02</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · administration</p></div>
+            <div className="section-shell grid grid-cols-2 divide-x divide-[#d2c7b9] sm:grid-cols-5">
+              <div className="py-6 pr-5 sm:py-7"><p className="font-display text-4xl text-[#6e2338]" data-testid="stat-years">19</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years teaching</p></div>
+              <div className="py-6 pl-5 sm:py-7 sm:pl-7"><p className="font-display text-4xl text-[#23384b]" data-testid="stat-superior-college">04</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · Superior College</p></div>
+              <div className="border-t border-[#d2c7b9] py-6 pr-5 sm:border-t-0 sm:py-7 sm:pl-7"><p className="font-display text-4xl text-[#4e7c78]" data-testid="stat-punjab-college">07</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · Punjab College</p></div>
+              <div className="border-t border-[#d2c7b9] py-6 pl-5 sm:border-t-0 sm:py-7 sm:pl-7"><p className="font-display text-4xl text-[#4e7c78]" data-testid="stat-ucp">02</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · UCP Faisalabad</p></div>
+              <div className="border-t border-[#d2c7b9] py-6 pr-5 sm:border-t-0 sm:py-7"><p className="font-display text-4xl text-[#b28a34]" data-testid="stat-edinburgh">02</p><p className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#6d736e]">years · administration</p></div>
             </div>
           </div>
         </section>
@@ -275,7 +278,7 @@ function Home() {
             </Reveal>
             <Reveal delay={130}>
               <div className="relative ml-1 border-l border-[#d2c7b9] pl-8 sm:pl-12">
-                <div className="timeline-line absolute -left-[2px] top-0 h-[78%] w-[3px]" />
+                <div className="timeline-line absolute -left-[2px] top-0 h-[86%] w-[3px]" />
                 <article className="relative pb-12" data-testid="timeline-item-1">
                   <span className="absolute -left-[42px] top-1 flex h-4 w-4 items-center justify-center rounded-full border-4 border-[#f7f3ed] bg-[#6e2338] sm:-left-[58px]" />
                   <p className="font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b28a34]">Present · Faisalabad</p>
@@ -283,18 +286,24 @@ function Home() {
                   <p className="mt-3 max-w-[560px] text-sm leading-6 text-[#6d736e]">Continuing to help students work confidently with advanced mathematics, statistics, modeling, and problem-solving.</p>
                 </article>
                 <article className="relative border-t border-[#d2c7b9] py-12" data-testid="timeline-item-2">
+                  <span className="absolute -left-[42px] top-[49px] flex h-4 w-4 items-center justify-center rounded-full border-4 border-[#f7f3ed] bg-[#d9a441] sm:-left-[58px]" />
+                  <p className="font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b28a34]">4 years · Superior College Khurrianwala</p>
+                  <h3 className="mt-3 font-display text-3xl text-[#23384b]">A newer chapter in teaching</h3>
+                  <p className="mt-3 max-w-[560px] text-sm leading-6 text-[#6d736e]">Four years of guiding learners through mathematics with the same patience, structure, and belief in steady progress.</p>
+                </article>
+                <article className="relative border-t border-[#d2c7b9] py-12" data-testid="timeline-item-3">
                   <span className="absolute -left-[42px] top-[49px] flex h-4 w-4 items-center justify-center rounded-full border-4 border-[#f7f3ed] bg-[#4e7c78] sm:-left-[58px]" />
                   <p className="font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b28a34]">7 years · Punjab College Faisalabad</p>
                   <h3 className="mt-3 font-display text-3xl text-[#23384b]">Teaching with range</h3>
                   <p className="mt-3 max-w-[560px] text-sm leading-6 text-[#6d736e]">A substantial chapter spent meeting learners where they were, then giving them the tools to go further.</p>
                 </article>
-                <article className="relative border-t border-[#d2c7b9] py-12" data-testid="timeline-item-3">
+                <article className="relative border-t border-[#d2c7b9] py-12" data-testid="timeline-item-4">
                   <span className="absolute -left-[42px] top-[49px] flex h-4 w-4 items-center justify-center rounded-full border-4 border-[#f7f3ed] bg-[#d9a441] sm:-left-[58px]" />
                   <p className="font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b28a34]">2 years · University of Central Punjab</p>
                   <h3 className="mt-3 font-display text-3xl text-[#23384b]">Higher education, close up</h3>
                   <p className="mt-3 max-w-[560px] text-sm leading-6 text-[#6d736e]">Two years at UCP Faisalabad, supporting a more independent and analytical style of learning.</p>
                 </article>
-                <article className="relative border-t border-[#d2c7b9] pt-12" data-testid="timeline-item-4">
+                <article className="relative border-t border-[#d2c7b9] pt-12" data-testid="timeline-item-5">
                   <span className="absolute -left-[42px] top-[49px] flex h-4 w-4 items-center justify-center rounded-full border-4 border-[#f7f3ed] bg-[#23384b] sm:-left-[58px]" />
                   <p className="font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b28a34]">2 years · Edinburgh Education Centre, Lahore</p>
                   <h3 className="mt-3 font-display text-3xl text-[#23384b]">The administrator’s lens</h3>
