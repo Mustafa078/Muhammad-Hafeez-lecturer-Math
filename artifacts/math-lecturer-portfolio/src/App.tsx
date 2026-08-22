@@ -6,7 +6,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
-import lecturerPortrait from '@assets/image_1787375197389.png';
+import { motion, useScroll, useTransform } from 'framer-motion';
+const lecturerPortrait = "/download.png";
 
 const queryClient = new QueryClient();
 
@@ -69,32 +70,193 @@ function scrollToSection(id: string) {
 }
 
 function Reveal({ children, className = '', delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.7, delay: delay / 1000, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+
+function ParallaxGrid() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 4000], [0, -400]);
+  return (
+    <motion.div
+      style={{ y }}
+      className="fixed inset-[-100%] z-[49] pointer-events-none opacity-[0.2] math-grid"
+      aria-hidden="true"
+    />
+  );
+}
+
+function MathParticleSystem() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setVisible(true);
-        observer.disconnect();
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let particles = [];
+    let animationFrameId;
+    const symbols = ['∫', '∑', 'π', '∞', 'Δ', 'Ω', 'μ', 'θ', 'ƒ', 'α', 'β', 'γ', 'λ'];
+    const mouse = { x: -1000, y: -1000, radius: 220 };
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    };
+
+    const initParticles = () => {
+      particles = [];
+      const numParticles = Math.floor((canvas.width * canvas.height) / 12000);
+      for (let i = 0; i < numParticles; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          size: Math.random() * 12 + 10,
+          symbol: symbols[Math.floor(Math.random() * symbols.length)],
+          opacity: Math.random() * 0.15 + 0.05,
+        });
       }
-    }, { threshold: 0.12 });
-    observer.observe(node);
-    return () => observer.disconnect();
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouse.radius) {
+          const force = (mouse.radius - distance) / mouse.radius;
+          p.x += (dx / distance) * force * 1.5;
+          p.y += (dy / distance) * force * 1.5;
+        }
+
+        ctx.font = `${p.size}px "Playfair Display", serif`;
+        ctx.fillStyle = `rgba(217, 164, 65, ${p.opacity})`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(p.symbol, p.x, p.y);
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx2 = p.x - p2.x;
+          const dy2 = p.y - p2.y;
+          const distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+          if (distance2 < 120) {
+            const distToMouse = Math.min(
+              Math.sqrt(Math.pow(p.x - mouse.x, 2) + Math.pow(p.y - mouse.y, 2)),
+              Math.sqrt(Math.pow(p2.x - mouse.x, 2) + Math.pow(p2.y - mouse.y, 2))
+            );
+            
+            let lineOpacity = 0.08 * (1 - distance2 / 120);
+            if (distToMouse < 220) {
+              lineOpacity = Math.max(lineOpacity, 0.3 * (1 - distToMouse / 220) * (1 - distance2 / 120));
+            }
+            
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(217, 164, 65, ${lineOpacity})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      }
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
-  return <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+  return <canvas ref={canvasRef} className="fixed inset-0 z-[49] pointer-events-none mix-blend-plus-lighter opacity-70" aria-hidden="true" />;
 }
 
 function FormulaBoard() {
+  const boardRef = useRef<HTMLDivElement>(null);
+  const orbitRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const board = boardRef.current;
+    const orbit = orbitRef.current;
+    if (!board || !orbit) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = board.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const moveX = (x - centerX) * -0.04;
+      const moveY = (y - centerY) * -0.04;
+      
+      orbit.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    };
+
+    const handleMouseLeave = () => {
+      orbit.style.transform = `translate(0px, 0px)`;
+    };
+
+    board.addEventListener('mousemove', handleMouseMove);
+    board.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      board.removeEventListener('mousemove', handleMouseMove);
+      board.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <div className="relative min-h-[470px] overflow-hidden rounded-[2rem] border border-[#d2b674]/30 bg-[#23384b] p-7 text-[#f7f3ed] shadow-[0_26px_70px_rgba(52,39,35,.18)] sm:p-10" data-testid="card-formula-board">
-      <div className="absolute inset-0 math-grid opacity-20" />
+    <div ref={boardRef} className="relative min-h-[470px] overflow-hidden rounded-[2rem] border border-[#d2b674]/30 bg-[#23384b] p-7 text-[#f7f3ed] shadow-[0_26px_70px_rgba(52,39,35,.18)] sm:p-10" data-testid="card-formula-board">
+      
       <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full border border-[#d9a441]/40" />
       <div className="absolute -right-12 -top-16 h-48 w-48 rounded-full border border-[#d9a441]/25" />
-      <svg className="hero-orbit absolute -right-4 top-8 h-[300px] w-[300px] opacity-80" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      <svg ref={orbitRef} className="hero-orbit absolute -right-4 top-8 h-[300px] w-[300px] opacity-80 transition-transform duration-300 ease-out" viewBox="0 0 300 300" fill="none" aria-hidden="true">
         <circle cx="150" cy="150" r="102" stroke="#d9a441" strokeWidth="1.5" strokeDasharray="3 9" className="orbit-dash" />
         <path d="M48 194C74 145 107 113 153 101C196 90 218 67 235 37" stroke="#e8d9b6" strokeWidth="1.2" />
         <path d="M52 198L235 37" stroke="#d9a441" strokeWidth="1" strokeDasharray="5 7" />
@@ -112,9 +274,11 @@ function FormulaBoard() {
         <div className="mt-6 h-px w-14 bg-[#d9a441]" />
         <p className="mt-3 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#b8c5ca]">M. Hafeez · teaching mathematics</p>
       </div>
-      <div className="formula-float absolute bottom-10 left-8 z-[3] font-display text-2xl text-[#d9a441] sm:left-10">∫ f(x) dx</div>
-      <div className="formula-float-delay absolute bottom-20 right-10 z-[3] font-display text-xl text-[#c7d7d2]">P(A | B)</div>
-      <div className="absolute bottom-7 left-7 z-[3] rounded-full border border-[#f7f3ed]/20 px-3 py-1 font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#b8c5ca] sm:left-auto sm:right-7">Faisalabad, PK</div>
+      <div className="absolute bottom-6 left-6 z-[3] flex flex-col items-start gap-1 sm:bottom-8 sm:left-10">
+        <div className="formula-float font-display text-[2.5rem] leading-none text-[#d9a441]">∫ f(x) dx</div>
+        <div className="rounded-full border border-[#f7f3ed]/20 px-3 py-1.5 font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#b8c5ca]">Faisalabad, PK</div>
+      </div>
+      <div className="formula-float-delay absolute bottom-[100px] right-[60px] z-[0] font-display text-5xl text-[#f7f3ed]/30 sm:right-[220px]">P(A | B)</div>
     </div>
   );
 }
@@ -144,7 +308,9 @@ function Home() {
   };
 
   return (
-    <div className="min-h-[100dvh] overflow-hidden">
+    <div className="min-h-[100dvh] relative">
+      <ParallaxGrid />
+      <MathParticleSystem />
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[#d2c7b9]/70 bg-[#f7f3ed]/90 backdrop-blur-xl" data-testid="header-site">
         <div className="section-shell flex h-[76px] items-center justify-between">
           <button onClick={() => handleNavigation('top')} className="group flex items-center gap-3 text-left" data-testid="button-home">
@@ -160,7 +326,7 @@ function Home() {
                 {item.label}
               </button>
             ))}
-            <a href="/m-hafeez-cv.pdf" download className="button-primary ml-2 py-3 text-[10px]" data-testid="link-download-cv-nav">
+            <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="button-primary ml-2 py-3 text-[10px]" data-testid="link-download-cv-nav">
               <Download size={14} strokeWidth={1.8} /> Download CV
             </a>
           </nav>
@@ -176,7 +342,7 @@ function Home() {
                   <span><span className="mr-3 font-mono-ui text-[10px] text-[#b28a34]">0{index + 1}</span>{item.label}</span><ArrowUpRight size={15} />
                 </button>
               ))}
-              <a href="/m-hafeez-cv.pdf" download className="button-primary mt-4 w-fit" data-testid="link-download-cv-mobile"><Download size={14} /> Download CV</a>
+              <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="button-primary mt-4 w-fit" data-testid="link-download-cv-mobile"><Download size={14} /> Download CV</a>
             </nav>
           </div>
         )}
@@ -364,7 +530,7 @@ function Home() {
               <p className="eyebrow mb-5 text-[#e5d7ad]">06 / Let’s talk</p>
               <h2 className="max-w-[700px] font-display text-5xl leading-[1.02] tracking-[-.04em] sm:text-7xl">Have a question<br />worth <em className="text-[#f3e5c2]">working through?</em></h2>
               <p className="mt-7 max-w-[530px] text-[16px] leading-7 text-[#d4e0dc]">For institutions, students, and curious minds in Faisalabad and beyond — I would be glad to hear what you are thinking about.</p>
-              <a href="/m-hafeez-cv.pdf" download className="mt-9 inline-flex items-center gap-2 border-b border-[#f3e5c2] pb-2 text-sm font-semibold text-[#f3e5c2] transition-colors hover:text-white" data-testid="link-download-cv-contact"><Download size={16} /> Download CV PDF</a>
+              <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex items-center gap-2 border-b border-[#f3e5c2] pb-2 text-sm font-semibold text-[#f3e5c2] transition-colors hover:text-white" data-testid="link-download-cv-contact"><Download size={16} /> Download CV PDF</a>
             </Reveal>
             <Reveal delay={140}>
               <div className="space-y-3">

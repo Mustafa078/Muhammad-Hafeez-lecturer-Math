@@ -148,8 +148,6 @@
   .text-balance { text-wrap: balance; }
   .section-shell { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
   .eyebrow { font-family: var(--app-font-mono); font-size: 0.66rem; letter-spacing: 0.17em; text-transform: uppercase; color: hsl(var(--secondary)); }
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms ease, transform 700ms ease; }
-  .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .math-grid {
     background-image: linear-gradient(rgba(110, 35, 56, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(110, 35, 56, 0.08) 1px, transparent 1px);
     background-size: 32px 32px;
@@ -157,6 +155,9 @@
   .ink-line { position: relative; display: inline-block; }
   .ink-line::after { content: ''; position: absolute; height: 8px; left: -2%; right: 8%; bottom: -5px; border-top: 2px solid hsl(var(--accent)); border-radius: 50%; transform: rotate(-2deg); }
 }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms ease, transform 700ms ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 .nav-link { position: relative; color: hsl(var(--muted-foreground)); transition: color 220ms ease; }
 .nav-link::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -8px; height: 2px; background: hsl(var(--accent)); transition: right 220ms ease; }
