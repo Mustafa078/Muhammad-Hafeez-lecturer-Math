@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "M. Hafeez — Mathematics Lecturer"
+description = "A warm, professional portfolio for an experienced mathematics lecturer, combining teaching credibility with accessible mathematical communication for students, institutions, and collaborators."
+version = "1.0.0"
+id = "artifacts/math-lecturer-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20433
+
+[services.development]
+run = "pnpm --filter @workspace/math-lecturer-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/math-lecturer-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/math-lecturer-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20433"
+BASE_PATH = "/"
