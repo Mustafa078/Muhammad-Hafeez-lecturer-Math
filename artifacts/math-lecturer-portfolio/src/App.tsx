@@ -7,7 +7,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { motion, useScroll, useTransform } from 'framer-motion';
-const lecturerPortrait = "/download.png";
+const lecturerPortrait = import.meta.env.BASE_URL + "download.png";
 
 const queryClient = new QueryClient();
 
@@ -326,7 +326,7 @@ function Home() {
                 {item.label}
               </button>
             ))}
-            <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="button-primary ml-2 py-3 text-[10px]" data-testid="link-download-cv-nav">
+            <a href={`${import.meta.env.BASE_URL}m-hafeez-cv.pdf`} target="_blank" rel="noopener noreferrer" className="button-primary ml-2 py-3 text-[10px]" data-testid="link-download-cv-nav">
               <Download size={14} strokeWidth={1.8} /> Download CV
             </a>
           </nav>
@@ -342,7 +342,7 @@ function Home() {
                   <span><span className="mr-3 font-mono-ui text-[10px] text-[#b28a34]">0{index + 1}</span>{item.label}</span><ArrowUpRight size={15} />
                 </button>
               ))}
-              <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="button-primary mt-4 w-fit" data-testid="link-download-cv-mobile"><Download size={14} /> Download CV</a>
+              <a href={`${import.meta.env.BASE_URL}m-hafeez-cv.pdf`} target="_blank" rel="noopener noreferrer" className="button-primary mt-4 w-fit" data-testid="link-download-cv-mobile"><Download size={14} /> Download CV</a>
             </nav>
           </div>
         )}
@@ -530,7 +530,7 @@ function Home() {
               <p className="eyebrow mb-5 text-[#e5d7ad]">06 / Let’s talk</p>
               <h2 className="max-w-[700px] font-display text-5xl leading-[1.02] tracking-[-.04em] sm:text-7xl">Have a question<br />worth <em className="text-[#f3e5c2]">working through?</em></h2>
               <p className="mt-7 max-w-[530px] text-[16px] leading-7 text-[#d4e0dc]">For institutions, students, and curious minds in Faisalabad and beyond — I would be glad to hear what you are thinking about.</p>
-              <a href="/m-hafeez-cv.pdf" target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex items-center gap-2 border-b border-[#f3e5c2] pb-2 text-sm font-semibold text-[#f3e5c2] transition-colors hover:text-white" data-testid="link-download-cv-contact"><Download size={16} /> Download CV PDF</a>
+              <a href={`${import.meta.env.BASE_URL}m-hafeez-cv.pdf`} target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex items-center gap-2 border-b border-[#f3e5c2] pb-2 text-sm font-semibold text-[#f3e5c2] transition-colors hover:text-white" data-testid="link-download-cv-contact"><Download size={16} /> Download CV PDF</a>
             </Reveal>
             <Reveal delay={140}>
               <div className="space-y-3">
