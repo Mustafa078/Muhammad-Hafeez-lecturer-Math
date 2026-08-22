@@ -1,20 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Muhammad Hafeez - Mathematics Lecturer Portfolio
 
-# Run and deploy your AI Studio app
+![Live Portfolio](https://img.shields.io/badge/Live_Demo-Mustafa078.github.io-blue?style=for-the-badge&logo=github)
 
-This contains everything you need to run your app locally.
+A professional, responsive portfolio website built to showcase the academic background, teaching experience, and contact information for Muhammad Hafeez, a dedicated Mathematics Lecturer.
 
-View your app in AI Studio: https://ai.studio/apps/b8a86d25-5799-40fd-a366-f26185a7be6e
+## 🌐 Live Website
+**[View the live portfolio here!](https://mustafa078.github.io/Muhammad-Hafeez-lecturer-Math/)**
 
-## Run Locally
+## ✨ Features
+- **Modern UI/UX:** Clean, elegant, and academic-focused design.
+- **Fully Responsive:** Looks perfect on mobile phones, tablets, and desktop displays.
+- **Downloadable CV:** Easy one-click access to download the full academic CV.
+- **Contact Integrated:** Direct mail-to links for easy communication.
 
-**Prerequisites:**  Node.js
+## 🛠️ Technologies Used
+- **React.js** (Component-based UI)
+- **Vite** (Next-generation frontend tooling)
+- **Tailwind CSS** (Utility-first CSS framework for rapid styling)
+- **TypeScript** (Strict syntactical superset of JavaScript)
+- **Lucide React** (Beautiful, consistent icons)
+- **GitHub Actions** (Automated CI/CD deployment to GitHub Pages)
 
+## 🚀 How to Run Locally
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+If you want to download and edit this project on your own computer:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Mustafa078/Muhammad-Hafeez-lecturer-Math.git
+   cd Muhammad-Hafeez-lecturer-Math
